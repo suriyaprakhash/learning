@@ -1,0 +1,26 @@
+To check services (/etc/init.d/{serice_names})
+
+to get the sevice and names {press q to quit}
+netstat -a | more
+to get the serice and their ip 
+netstat -an | more
+
+Installing apache2(httpd)
+
+sudo apt-get install apache2
+
+to start,
+sudo /etc/init.d/apache2 start
+
+
+Installing mysql
+
+install mysql server - sudo apt-get install mysql-server
+install mysql workbench - install from Ubuntu software (appstore)
+
+To check mysql is running or not:
+
+mysql - root -p status
+
+
+
