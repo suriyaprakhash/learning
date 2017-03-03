@@ -76,6 +76,16 @@ to start,
 sudo /etc/init.d/apache2 start
 
 
+Installing tomcat7(PORT 8080)
+
+sudo apt-get install tomcat7
+local filesystem at: /var/lib/tomcat7/webapps/ROOT/index.html
+Tomcat is installed with CATALINA_HOME in /usr/share/tomcat7 and CATALINA_BASE in /var/lib/tomcat7, following the rules from /usr/share/doc/tomcat7-common/RUNNING.txt.gz.
+
+to start/stop,
+sudo /etc/init.d/tomcat7 start
+sudo /etc/init.d/tomcat7 stop
+
 Installing mysql(PORT 3306)
 
 install mysql server - sudo apt-get install mysql-server
