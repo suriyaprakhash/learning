@@ -1,0 +1,111 @@
+Manual,
+man <command>
+eg. man ps
+
+To check kernel name
+uname
+To check kernel all info
+uname -a
+to check the version
+uname -v
+to check ther release
+uname -r
+
+To check current Ip address
+ifconfig
+
+newer command,
+ip addr show
+for a specific interface,
+ip addr show <inteface>
+eg: ip addr show eth0
+
+to check free disk space (diskfree - all files, human readable format) shows the toatl,used,free for all file system,
+df -ah
+
+to check the size of a directory (disk use),
+du -sh <directory_name>
+eg: du -sh Documents/
+
+To check services (/etc/init.d/{serice_names})
+a-to show name, p-to show processid, n - to show ip/port
+to get the sevice and names {press q to quit}
+netstat -a | more
+to get the service ports and their ip 
+netstat -an | more
+to get the service processid
+netstat -p
+
+to show the service,
+sudo service --status-all
+to start/stop/restart any service,
+sudo service <service_name> start/stop/restart
+eg. sudo service vsftpd restart
+
+To check for process list running,
+ps aux
+
+to get the specific process details
+ps aux | grep <process_name>
+eg. ps aux | grep bash
+
+alternate way(shows process, space,etc),
+top
+htop
+
+To check mounts like usb,hd,
+mount
+
+to mount,
+mount <device_loc> <destination>
+eg. mount /dev/sda2 /mnt
+here /mnt is default in root folder
+
+Installing apache2(httpd PORT 80)
+
+sudo apt-get install apache2
+
+to start,
+sudo /etc/init.d/apache2 start
+
+
+Installing mysql(PORT 3306)
+
+install mysql server - sudo apt-get install mysql-server
+install mysql workbench - install from Ubuntu software (appstore)
+
+To check mysql is running or not:
+
+mysql - root -p status 
+
+
+Installing and configuring ssh (PORT 22)
+
+The following command installs ssh,
+sudo apt-get install ssh
+
+This will show the status of the firewall in the server, if it should be inactive,
+sudo ufw status
+
+
+Installing and configuring ftp
+
+sudo apt-get install vsftpd
+
+once the installation is complete find the configuration at /etc/vsftpd.conf
+
+uncomment the following at it enables flag to allow local users to access the server 
+# local_enable = YES
+
+by default the users can download but to allow to write/upload uncomment,
+# write_enable = YES
+
+to restart the service use,
+sudo service vsftpd restart
+
+Also check for firewall if inactive, enable ports for vsftpd 
+
+
+
+
+
