@@ -45,6 +45,10 @@ to start/stop/restart any service,
 sudo service <service_name> start/stop/restart
 eg. sudo service vsftpd restart
 
+alternate older way for service start/stop/restart,
+/etc/init.d/<service_name> start
+eg. /etc/init.d/apache2 start
+
 To check for process list running,
 ps aux
 
