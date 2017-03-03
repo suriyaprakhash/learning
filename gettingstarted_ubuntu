@@ -94,7 +94,9 @@ To generate private/public key in ssh (/home/.ssh),
 ssh-keygen -t rsa
 t here specifies the type of encryption,dsa is default but rsa it little easier to decrypt. The above command would create public and private key files in /home/.ssh
 
-
+Note(SSH) for VirtualBox:
+Use bridge newtwork to connect to the machine by default.
+For NAT, ssh port forward tcp from <temp_port_num> to 22 in virtual box network options and connect via putty thru user@127.0.0.1:<temp_port_no>
 
 
 Installing and configuring ftp
