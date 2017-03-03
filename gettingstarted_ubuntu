@@ -35,6 +35,9 @@ to get the service ports and their ip
 netstat -an | more
 to get the service processid
 netstat -p
+to get the particular service
+netstat -a | grep <port_no>
+eg. netstat -a | grep 22
 
 to show the service,
 sudo service --status-all
@@ -86,6 +89,12 @@ sudo apt-get install ssh
 
 This will show the status of the firewall in the server, if it should be inactive,
 sudo ufw status
+
+To generate private/public key in ssh (/home/.ssh),
+ssh-keygen -t rsa
+t here specifies the type of encryption,dsa is default but rsa it little easier to decrypt. The above command would create public and private key files in /home/.ssh
+
+
 
 
 Installing and configuring ftp
