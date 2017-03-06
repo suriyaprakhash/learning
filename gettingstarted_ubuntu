@@ -131,6 +131,15 @@ sudo service vsftpd restart
 Also check for firewall if inactive, enable ports for vsftpd 
 
 
+Installing java
+
+sudo apt-get install openjdk-7-jdk
+
+Installing git
+
+sudo apt-get install git
+
+
 
 
 
