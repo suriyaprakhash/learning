@@ -1,0 +1,40 @@
+Download pcfdev and install the vm from https://pivotal.io/pcf-dev,
+Install win CLI(command line interface)
+
+Web manager
+https://apps.local.pcfdev.io
+
+CLI:
+
+cf dev start
+#this starts the dev server
+
+cf login -a https://api.local.pcfdev.io --skip-ssl-validation
+#login to the applicatin with the admin or user
+
+cf target -o myorg -s myspace
+#Target your org / space
+
+cf push restsample-app -p target/restsample.jar
+#pushing the targer jar against the name restsample-app
+
+cf marketplace
+#displays the items in marketplace
+
+cf create-service p-mysql 512mb my_mysql
+#cf create-service SERVICE PLAN SERVICE_INSTANCE, for creating mysql service
+
+
+Tutorials:
+https://github.com/cloudfoundry-samples/spring-music
+https://dzone.com/articles/deploying-spring-boot - spring app with postgresql 
+http://www.dineshonjava.com/2017/01/microservices-with-spring-boot.html#.WMUgfDt96Ul - with microservices
+https://github.com/cloudfoundry-samples
+
+PCF-DEV Documentation:
+https://docs.pivotal.io/pcf-dev/ - refer for commmands
+
+Microservices:
+https://github.com/mstine/intro-spring-cloud-workshop/tree/master/cloud
+https://github.com/mstine/2015-cfsummit-deploying-ms-to-cf
+https://github.com/mstine/2015-cfsummit-deploying-ms-to-cf/blob/master/deploying-microservices-cf-summit.pdf
