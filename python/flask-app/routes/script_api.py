@@ -1,6 +1,7 @@
 from flask import Blueprint, current_app, request, jsonify
-from app.script import func_sum, set_global_data, get_global_data
-from exception import AppException
+from app.script import func_sum, set_global_data, get_global_data, get_res
+from exception.AppException import ConvertFailed
+
 
 script_api = Blueprint('api', __name__)
 
@@ -24,16 +25,27 @@ def test_script_func_sum():
         int2 = int(request.args.get('int2'))
         current_app.logger.debug('%d - int1 & %d - int2', int1, int2)
         # convert int to string and return
-        payload = {'sum_str': 'The sum is ' + str(func_sum(int1, int2))}
-        res = dict(payload or ())
-        return jsonify(res)
+        sum_str_obj = {'sum_str': 'The sum is ' + str(func_sum(int1, int2))}
+        #sum_str_obj = str(func_sum(int1, int2))
+        payload = get_res(sum_str_obj)
+        return jsonify(payload)
+    # Catch ConvertFailed exception from get_res()
+    except ConvertFailed:
+        current_app.logger.error('Errored out due to dict init')
+    # this is for generic error
     except:
-        current_app.logger.error('Errored out')
-        raise AppException('Input error', status_code=400, payload = 'payload')
+        current_app.logger.error('Unexpected error occured')
+    finally:
+        current_app.logger.debug('sum function terminates now')
 
-#
-# @script_api.app_errorhandler(AppException)
-# def handle_error(error):
-#     res = jsonify(error.to_dict())
-#     res.status_code = error.status_code
-#     return res
+@script_api.app_errorhandler(404)
+def page_not_found(e):
+    """ Return error 404 """
+    return 'Page not found from script-api'
+
+
+@script_api.app_errorhandler(500)
+def page_not_found(e):
+    """ Return error 500 """
+    return 'Internal server error from script-api'
+
