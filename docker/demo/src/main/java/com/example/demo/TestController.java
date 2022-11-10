@@ -16,6 +16,6 @@ public class TestController {
         log.error("error");
         log.warn("warn");
         log.debug("debug");
-        return "hello";
+        return "hello1";
     }
 }

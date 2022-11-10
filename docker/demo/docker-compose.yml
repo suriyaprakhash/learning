@@ -1,0 +1,23 @@
+version: '3'
+services:
+  docker-demo-0:
+    container_name: dockerDemo0Container
+    image: "docker-demo-0-img"
+    build:
+      context: .
+      args:
+        CONTAINER_PORT: 8080
+        ARTIFACT_NAME: docker-demo.jar
+    ports:
+    - "9000:8080"
+
+  docker-demo-1:
+    container_name: dockerDemo1Container
+    image: "docker-demo-1-img"
+    build:
+      context: .
+      args:
+        CONTAINER_PORT: 8080
+        ARTIFACT_NAME: docker-demo.jar
+    ports:
+      - "9001:8080"
