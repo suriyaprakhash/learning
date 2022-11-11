@@ -3,3 +3,6 @@
 **/.idea
 **/Pipfile.lock
 **/__pycache__
+
+# cloud
+**/volume/**
