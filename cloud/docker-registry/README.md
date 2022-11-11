@@ -6,6 +6,7 @@
 docker pull registry
 ```
 
+**Volume** is the folder as *docker-registry\volume*
 
 ```cmd
 docker run -d --name local-registry -p 5000:5000 -v C:\Suriya\ws\learning\cloud\docker-registry\volume:/var/lib/registry registry:latest
