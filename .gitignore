@@ -5,4 +5,7 @@
 **/__pycache__
 
 # cloud
+## for volumes folder for docker image
 **/volume/**
+## for helm package
+**.tgz
