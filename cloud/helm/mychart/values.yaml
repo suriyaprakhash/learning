@@ -5,10 +5,11 @@
 replicaCount: 1
 
 image:
-  repository: nginx
+  # repository: nginx
+  repository: 172.24.0.1:5000/html-nginx
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: ""
+  tag: "v1"
 
 imagePullSecrets: []
 nameOverride: ""
@@ -21,7 +22,7 @@ serviceAccount:
   annotations: {}
   # The name of the service account to use.
   # If not set and create is true, a name is generated using the fullname template
-  name: ""
+  name: "html-svcs"
 
 podAnnotations: {}
 
