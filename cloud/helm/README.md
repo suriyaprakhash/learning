@@ -17,6 +17,8 @@ docker run --name local-helm-registry \
     bitnami/chartmuseum:latest
 ```
 
+Goto [Running chart in OC](#running-chart-in-oc)
+
 ### Runnin helm with Chartmuseum (Permission denied to push chart to windows dir)
 
 https://github.com/helm/chartmuseum
@@ -80,7 +82,7 @@ chartmuseum --debug --port=7000 \
 helm create mychart
 ```
 
-Update yaml, the following would produce a tgz
+Navigate to **mychart** folder and update yaml, the following would produce a tgz
 
 ```
 helm package .
@@ -126,8 +128,9 @@ Check for the upated catalog
 Check creation by **searching** as **admin**
 ![OC Helm repo creation check](./images/oc-helm-repo-creation-check.jpg)
 
-
-
+Image pull CA -cert
+https://docs.openshift.com/container-platform/4.7/cicd/builds/setting-up-trusted-ca.html
+https://myopenshiftblog.com/custom-image-pull-requirements/
 
 ### Adding a repo
 

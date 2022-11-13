@@ -6,10 +6,10 @@ replicaCount: 1
 
 image:
   # repository: nginx
-  repository: 172.24.0.1:5000/html-nginx
+  repository: 172.24.0.1:5443/html-nginx
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "v1"
+  tag: "latest"
 
 imagePullSecrets: []
 nameOverride: ""
