@@ -74,6 +74,28 @@ export HOST="my.host"
 export IP="127.0.0.1"
 openssl req -newkey rsa:4096 -nodes -keyout ${HOST}.key -x509 -days 365 -out ${HOST}.crt -addext 'subjectAltName = IP:${IP}' -subj '/C=US/ST=CA/L=SanFrancisco/O=MyCompany/OU=RND/CN=${HOST}/'
 ```
+
+With CA
+
+This genertes the private key (with pass phrase)
+```
+openssl genrsa -aes256 -out CAKey.pem 4096
+```
+Enter CA_PASSPHRASE
+
+```
+openssl req -new -x509 -sha256 -days 1000 -key CAKey.pem -out CA.pem
+```
+
+```
+openssl genrsa -out DomainKey.pem 4096
+```
+
+```
+openssl req -new -x509 -sha256 -days 1000 -addext 'subjectAltName = IP:172.24.0.1' -key DomainKey.pem -out DomainCert.pem
+```
+
+
 #### To set this as insecure-registry
 Setting insecure in config in C:\Users\suriy\.docker\daemon.json alternatively in Docker desktop -> Settings -> Docker engine
 ```json
