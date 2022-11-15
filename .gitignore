@@ -9,3 +9,7 @@
 **/volume/**
 ## for helm package
 **.tgz
+# for cert files
+**.pem
+**.csr
+**.crt

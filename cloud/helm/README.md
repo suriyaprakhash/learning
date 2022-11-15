@@ -157,7 +157,7 @@ helm repo remove myrepo
 
 ### Installing app into Kubernetes
 
-Format **helm install [application-name] [chartmuseum]/[chartname]**
+Format **helm install [namespace-chart-name] [chartmuseum]/[chartname]**
 
 ```
 helm install kubeindex-nginx myrepo/mychart
