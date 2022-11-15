@@ -112,7 +112,6 @@ Alternatively, we can push by installing https://github.com/chartmuseum/helm-pus
 helm cm-push mychart/ http://localhost:7000
 ```
 
-
 ### OC
 
 https://docs.openshift.com/container-platform/4.7/cli_reference/helm_cli/getting-started-with-helm-on-openshift-container-platform.html
@@ -153,4 +152,31 @@ helm repo list
 
 ```
 helm repo remove myrepo
+```
+
+
+### Installing app into Kubernetes
+
+Format **helm install [application-name] [chartmuseum]/[chartname]**
+
+```
+helm install kubeindex-nginx myrepo/mychart
+```
+
+```
+helm upgrade kubeindex-nginx
+```
+
+```
+helm rollback kubeindex-nginx
+```
+
+**Unistall** and **delete** does the same
+
+```
+helm uninstall kubeindex-nginx
+```
+
+```
+helm delete kubeindex-nginx
 ```
