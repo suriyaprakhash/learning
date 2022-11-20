@@ -1,5 +1,21 @@
 # Openshift
 
+## Trusting the images from private registry with the CA
+
+https://docs.openshift.com/container-platform/4.7/cicd/builds/setting-up-trusted-ca.html
+
+1. Creating the _configMap_
+
+```
+$ oc create configmap registry-cas -n openshift-config \
+--from-file=myregistry.corp.com..5000=/etc/docker/certs.d/myregistry.corp.com:5000/ca.crt \
+--from-file=otherregistry.com=/etc/docker/certs.d/otherregistry.com/ca.crt
+```
+2. Updating the cluster image config
+```
+$ oc patch image.config.openshift.io/cluster --patch '{"spec":{"additionalTrustedCA":{"name":"registry-cas"}}}' --type=merge
+```
+
 ## Login 
 
 To get token from https://oauth-openshift.apps-crc.testing/oauth/token/request
