@@ -34,10 +34,10 @@ Start the container,
 docker run --name local-registry \
     -d --restart=always \
     -v C:\\Suriya\\ws\\learning\\cloud\\docker-registry\\volume:/var/lib/registry \
-    -v C:\\Suriya\\ws\\learning\\cloud\\docker-registry\\certs:/certs \
+    -v C:\\Suriya\\ws\\learning\\cloud\\docker-registry\\certs\\192.168.128.1:/certs \
     -e REGISTRY_HTTP_ADDR=0.0.0.0:443 \
-    -e REGISTRY_HTTP_TLS_CERTIFICATE=certs/cert.pem \
-    -e REGISTRY_HTTP_TLS_KEY=certs/key.unencrypted.pem \
+    -e REGISTRY_HTTP_TLS_CERTIFICATE=certs/DomainCert.pem \
+    -e REGISTRY_HTTP_TLS_KEY=certs/DomainKey.pem \
     -p 5443:443 \
     registry:latest
 ```
