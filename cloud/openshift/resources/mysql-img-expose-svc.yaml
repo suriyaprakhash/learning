@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysql-img-expose
+  namespace: db
+spec:
+  type: NodePort
+  ports:
+  - name: expose-3306-tcp
+    port: 3306
+    protocol: TCP
+  selector:
+    deployment: mysql-img

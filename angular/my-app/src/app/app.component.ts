@@ -11,7 +11,11 @@ export class AppComponent {
 
   constructor(private router: Router) { }
 
-  heroPage() {
+  heroPage(): void {
     this.router.navigate(['hero'])
+  }
+
+  configConsumerPage(): void {
+    this.router.navigate(['config-consumer']);
   }
 }

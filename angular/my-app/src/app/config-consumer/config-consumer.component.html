@@ -1,0 +1,10 @@
+<p>config-consumer works!</p>
+<!-- <p *nfIf="configData$ | async as configData"> -->
+    <!-- This is for the new helm release with the limit {{configData.limit}} and configName as {{configData.configName}} -->
+<!-- </p> -->
+
+<p *ngIf="configData$ | async as data">
+    {{data.limit}}
+    {{data.configName}}
+</p>
+<!-- {{(configData$ | async)?.configName}} -->
