@@ -1,0 +1,30 @@
+<html>
+    <body>
+        Select type of store:
+        <select id="storeSelect">
+        </select>
+        
+        </br>
+        </br>
+        
+        Enter the name: 
+        <input id="username" autocomplete="off"/>
+        <button onclick="submitUsername()">Submit</button>
+
+        </br>
+        </br>
+
+        <button onclick="readStoredValue()">Read stored value</button> 
+        <button onclick="readStoredCookieValueFromServer()">Read Cookie value from server and print it in console</button> 
+        <div id="displayStoredValue"></div>
+
+    </body>
+    
+    <footer>
+        <script src="scripts/elements.js"></script>
+        <script src="scripts/init.js"></script>
+        <script src="scripts/cookie.js"></script>
+        <script src="scripts/store.js"></script>
+    </footer>
+
+</html>
