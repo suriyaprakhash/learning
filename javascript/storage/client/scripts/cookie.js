@@ -2,7 +2,8 @@ function setCookie(username) {
     console.log('Setting cookie '+ username);
     const expireInSeconds = 30;
     // let userNameCookie = 'username=' + username + ';expires='+ getUtcTimeInSecondsFromNow(expireInSeconds);
-    let userNameCookie = 'username=' + username + ';domain=localhost.com';
+    let userNameCookie = 'username=' + username;
+    //  + ';domain=localhost.com';
     // cookie = cookie + 'Path=/server';
     document.cookie = userNameCookie;
     // document.cookie = 'data=/server';
@@ -31,9 +32,9 @@ function getCookie(cname) {
 function readStoredCookieValueFromServer() {
 
     const http = new XMLHttpRequest();
-    const url='http://server.localhost:3000/server';
+    const url='https://server.localhost.com:3000/server';
     http.open("GET", url);
-    // http.withCredentials = true;
+    http.withCredentials = true;
     http.send();
     
     http.onreadystatechange = (e) => {
