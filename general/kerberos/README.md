@@ -508,7 +508,7 @@ curl localhost:80
 ```
 
 ### Steps
-
+Following this [post](https://active-directory-wp.com/docs/Networking/Single_Sign_On/Kerberos_SSO_with_Apache_on_Linux.html)
 
 - Update the **client** */etc/hosts* config and add apacheserver ip,
 
@@ -561,7 +561,7 @@ here since its service we are doing it as -randkey for random key
 addprinc -randkey HTTP/apacheserver.kerberos.com
 ```
 ```
-list_principal
+list_principals
 ```
 <img src="images/kadmin.local-list-apacheprincipal.jpg"/>
 
