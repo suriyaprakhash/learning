@@ -10,6 +10,6 @@ public class ServerController {
 
     @GetMapping
     public String serverData() {
-        return "Data from server";
+        return "Data from server 1";
     }
 }
