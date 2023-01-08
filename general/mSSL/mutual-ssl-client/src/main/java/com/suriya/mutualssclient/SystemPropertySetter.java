@@ -83,25 +83,13 @@ public class SystemPropertySetter {
       ) {
          KeyStore keyStore = KeyStore.getInstance("jks");
          keyStore.load(keyStoreFileInputStream, keyStorePassword.toCharArray());
-//         KeyManagerFactory keyManagerFactory = KeyManagerFactory.getInstance("SunX509");
-//         keyManagerFactory.init(keyStore, clientSslKeyStorePassword.toCharArray());
 
-//         KeyStore trustStore = KeyStore.getInstance("jks");
-//         trustStore.load(trustStoreFileInputStream, trustStorePassword.toCharArray());
-//         TrustManagerFactory trustManagerFactory = TrustManagerFactory.getInstance("SunX509");
-//         trustManagerFactory.init(trustStore);
-
-//         File keyStoreFile = new File(keyStorePath);
          File trustStoreFile = new File(trustStorePath);
 
          sslContext =  SSLContextBuilder.create()
                  .loadKeyMaterial(keyStore, keyStorePassword.toCharArray())
                  .loadTrustMaterial(trustStoreFile, trustStorePassword.toCharArray())
                  .build();
-//                 .forClient()
-//                 .keyManager(keyManagerFactory)
-//                 .trustManager(trustManagerFactory)
-//                 .build();
 
       } catch (Exception exception) {
          System.out.println(exception);

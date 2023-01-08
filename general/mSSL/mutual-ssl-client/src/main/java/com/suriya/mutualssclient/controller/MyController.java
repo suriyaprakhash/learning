@@ -41,8 +41,6 @@ public class MyController {
                 .retrieve().bodyToMono(String.class);
         var data = dateFromServer.block();
         return data;
-
-
     }
 
     @GetMapping("webclient-netty")
