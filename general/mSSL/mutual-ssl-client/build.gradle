@@ -28,6 +28,10 @@ dependencies {
 
 	// the reactor netty is required for setting SSLContext thru Web client
 //	implementation 'io.projectreactor.netty:reactor-netty-http:1.1.1'
+
+	// https://mvnrepository.com/artifact/io.projectreactor.netty/reactor-netty
+	implementation 'io.projectreactor.netty:reactor-netty:1.1.1'
+
 	// the http core is required for building the SSLContext with KeyStore and TrustStore
 	implementation 'org.apache.httpcomponents:httpcore:4.4.8'
 

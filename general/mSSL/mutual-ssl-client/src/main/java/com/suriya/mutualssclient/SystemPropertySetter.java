@@ -1,5 +1,7 @@
 package com.suriya.mutualssclient;
 
+import io.netty.handler.ssl.SslContext;
+import io.netty.handler.ssl.SslContextBuilder;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -12,14 +14,12 @@ import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManagerFactory;
 import java.io.*;
 import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.security.KeyStore;
 //
 import org.apache.http.ssl.SSLContextBuilder;
 //import org.apache.http.ssl.SSLContexts;
 import org.springframework.web.reactive.function.client.WebClient;
+import reactor.netty.tcp.SslProvider;
 
 @Component
 public class SystemPropertySetter {
@@ -47,7 +47,36 @@ public class SystemPropertySetter {
    }
 
 
-   public SSLContext getTwoWaySslContext() {
+   public SslContext getTwoWayNettySslContext() {
+
+      SslContext sslContext = null;
+      try(FileInputStream keyStoreFileInputStream = new FileInputStream(ResourceUtils.getFile(keyStorePath));
+          FileInputStream trustStoreFileInputStream = new FileInputStream(ResourceUtils.getFile(trustStorePath));
+      ) {
+         KeyStore keyStore = KeyStore.getInstance("jks");
+         keyStore.load(keyStoreFileInputStream, keyStorePassword.toCharArray());
+         KeyManagerFactory keyManagerFactory = KeyManagerFactory.getInstance("SunX509");
+         keyManagerFactory.init(keyStore, keyStorePassword.toCharArray());
+
+         KeyStore trustStore = KeyStore.getInstance("jks");
+         trustStore.load(trustStoreFileInputStream, trustStorePassword.toCharArray());
+         TrustManagerFactory trustManagerFactory = TrustManagerFactory.getInstance("SunX509");
+         trustManagerFactory.init(trustStore);
+
+         sslContext = SslContextBuilder.forClient()
+                 .keyManager(keyManagerFactory)
+                 .trustManager(trustManagerFactory)
+                 .build();
+      } catch (Exception exception) {
+         System.out.println(exception);
+      }
+
+     return sslContext;
+   }
+
+   public SSLContext getTwoWayJavaNetHttpSslContext() {
+
+      SSLContext sslContext = null;
 
       try(FileInputStream keyStoreFileInputStream = new FileInputStream(ResourceUtils.getFile(keyStorePath));
           FileInputStream trustStoreFileInputStream = new FileInputStream(ResourceUtils.getFile(trustStorePath));
@@ -65,7 +94,7 @@ public class SystemPropertySetter {
 //         File keyStoreFile = new File(keyStorePath);
          File trustStoreFile = new File(trustStorePath);
 
-         return SSLContextBuilder.create()
+         sslContext =  SSLContextBuilder.create()
                  .loadKeyMaterial(keyStore, keyStorePassword.toCharArray())
                  .loadTrustMaterial(trustStoreFile, trustStorePassword.toCharArray())
                  .build();
@@ -78,18 +107,22 @@ public class SystemPropertySetter {
          System.out.println(exception);
       }
 
-      return null;
+      return sslContext;
    }
 
-//   public WebClient webClient() {
-//      SSLContext sslContext = getTwoWaySslContext();
-//      HttpClient httpClient = HttpClient.newBuilder().sslContext(sslContext).build();
-//      return WebClient.builder().baseUrl("https://localhost:8082").clientConnector(new ReactorClientHttpConnector(httpClient)).build();
-//   }
+   @Bean
+   public WebClient webClient() {
+      SslProvider sslProvider = SslProvider.builder().sslContext(getTwoWayNettySslContext()).build();
+      reactor.netty.http.client.HttpClient httpClient = reactor.netty.http.client.HttpClient.create()
+              .secure(sslProvider);
+      return WebClient.builder()
+//              .baseUrl("https://localhost:8082")
+              .clientConnector(new ReactorClientHttpConnector(httpClient)).build();
+   }
 
    @Bean
    public HttpClient httpClient() {
-      SSLContext sslContext = getTwoWaySslContext();
+      SSLContext sslContext = getTwoWayJavaNetHttpSslContext();
       return HttpClient.newBuilder().sslContext(sslContext).build();
    }
 

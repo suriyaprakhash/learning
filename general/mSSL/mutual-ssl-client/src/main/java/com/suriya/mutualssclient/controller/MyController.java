@@ -21,7 +21,8 @@ import java.util.concurrent.atomic.AtomicReference;
 @RequestMapping("/client")
 public class MyController {
 
-//    WebClient webClient;
+    @Autowired
+    WebClient webClient;
 //
 //    @Autowired
 //    public MyController(WebClient webClient) {
@@ -42,6 +43,16 @@ public class MyController {
         return data;
 
 
+    }
+
+    @GetMapping("webclient-netty")
+    public String gatherDataUsingWebClientNetty() throws URISyntaxException, IOException, InterruptedException {
+//        webClient.baseUrl("https://localhost:8082");
+        Mono<String> dateFromServer = webClient.get()
+                .uri("https://localhost:8082/server")
+                .retrieve().bodyToMono(String.class);
+        var data = dateFromServer.block();
+        return data;
     }
 
     @GetMapping("http")
