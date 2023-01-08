@@ -28,6 +28,9 @@ public class MyController {
 //        this.webClient = webClient;
 //    }
 
+    @Autowired
+    HttpClient httpClient;
+
     // https://docs.spring.io/spring-boot/docs/2.7.2/reference/htmlsingle/#howto.webserver.configure-ssl
     @GetMapping
     public String gatherDataFromServer() throws URISyntaxException, IOException, InterruptedException {
@@ -39,27 +42,31 @@ public class MyController {
         return data;
 
 
+    }
+
+    @GetMapping("http")
+    public String getDataUsingHttpClient() throws URISyntaxException, IOException, InterruptedException {
 //        SystemPropertySetter systemPropertySetter = new SystemPropertySetter();
 //        HttpClient httpClient = systemPropertySetter.httpClient();
-//        HttpRequest request = HttpRequest.newBuilder()
-//                .uri(new URI("https://localhost:8082/server"))
-//                .headers("Content-Type", "text/plain;charset=UTF-8")
-//                .GET()
-//                .build();
-//
-//        HttpResponse<String> response = httpClient.send(request,  HttpResponse.BodyHandlers.ofString());
-//
-//        // print response headers
-//        HttpHeaders headers = response.headers();
-//        headers.map().forEach((k, v) -> System.out.println(k + ":" + v));
-//
-//        // print status code
-//        System.out.println(response.statusCode());
-//
-//        // print response body
-//        System.out.println(response.body());
-//
-//        return response.body().toString();
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(new URI("https://localhost:8082/server"))
+                .headers("Content-Type", "text/plain;charset=UTF-8")
+                .GET()
+                .build();
+
+        HttpResponse<String> response = httpClient.send(request,  HttpResponse.BodyHandlers.ofString());
+
+        // print response headers
+        HttpHeaders headers = response.headers();
+        headers.map().forEach((k, v) -> System.out.println(k + ":" + v));
+
+        // print status code
+        System.out.println(response.statusCode());
+
+        // print response body
+        System.out.println(response.body());
+
+        return response.body().toString();
     }
 
     @GetMapping("/cli")

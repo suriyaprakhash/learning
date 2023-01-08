@@ -2,6 +2,7 @@ package com.suriya.mutualssclient;
 
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
 import org.springframework.http.client.reactive.ReactorClientHttpConnector;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ResourceUtils;
@@ -16,7 +17,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.security.KeyStore;
 //
-//import org.apache.http.ssl.SSLContextBuilder;
+import org.apache.http.ssl.SSLContextBuilder;
 //import org.apache.http.ssl.SSLContexts;
 import org.springframework.web.reactive.function.client.WebClient;
 
@@ -28,12 +29,12 @@ public class SystemPropertySetter {
 
    @Value("${suriya.client.ssl.trust-store-password}")
    private String trustStorePassword;
-//
-//   @Value("${suriya.client.ssl.key-store}")
-//   private String keyStorePath;
-//
-//   @Value("${suriya.client.ssl.key-store-password}")
-//   private String keyStorePassword;
+
+   @Value("${suriya.client.ssl.key-store}")
+   private String keyStorePath;
+
+   @Value("${suriya.client.ssl.key-store-password}")
+   private String keyStorePassword;
 
    @PostConstruct
    public void setProperty() {
@@ -45,40 +46,40 @@ public class SystemPropertySetter {
       System.setProperty("javax.net.debug", "all");
    }
 
-//
-//   public SSLContext getTwoWaySslContext() {
-//
-//      try(FileInputStream keyStoreFileInputStream = new FileInputStream(ResourceUtils.getFile(keyStorePath));
-//          FileInputStream trustStoreFileInputStream = new FileInputStream(ResourceUtils.getFile(trustStorePath));
-//      ) {
-//         KeyStore keyStore = KeyStore.getInstance("jks");
-//         keyStore.load(keyStoreFileInputStream, keyStorePassword.toCharArray());
-////         KeyManagerFactory keyManagerFactory = KeyManagerFactory.getInstance("SunX509");
-////         keyManagerFactory.init(keyStore, clientSslKeyStorePassword.toCharArray());
-//
-////         KeyStore trustStore = KeyStore.getInstance("jks");
-////         trustStore.load(trustStoreFileInputStream, trustStorePassword.toCharArray());
-////         TrustManagerFactory trustManagerFactory = TrustManagerFactory.getInstance("SunX509");
-////         trustManagerFactory.init(trustStore);
-//
-////         File keyStoreFile = new File(keyStorePath);
-//         File trustStoreFile = new File(trustStorePath);
-//
-//         return SSLContextBuilder.create()
-//                 .loadKeyMaterial(keyStore, keyStorePassword.toCharArray())
-//                 .loadTrustMaterial(trustStoreFile, trustStorePassword.toCharArray())
+
+   public SSLContext getTwoWaySslContext() {
+
+      try(FileInputStream keyStoreFileInputStream = new FileInputStream(ResourceUtils.getFile(keyStorePath));
+          FileInputStream trustStoreFileInputStream = new FileInputStream(ResourceUtils.getFile(trustStorePath));
+      ) {
+         KeyStore keyStore = KeyStore.getInstance("jks");
+         keyStore.load(keyStoreFileInputStream, keyStorePassword.toCharArray());
+//         KeyManagerFactory keyManagerFactory = KeyManagerFactory.getInstance("SunX509");
+//         keyManagerFactory.init(keyStore, clientSslKeyStorePassword.toCharArray());
+
+//         KeyStore trustStore = KeyStore.getInstance("jks");
+//         trustStore.load(trustStoreFileInputStream, trustStorePassword.toCharArray());
+//         TrustManagerFactory trustManagerFactory = TrustManagerFactory.getInstance("SunX509");
+//         trustManagerFactory.init(trustStore);
+
+//         File keyStoreFile = new File(keyStorePath);
+         File trustStoreFile = new File(trustStorePath);
+
+         return SSLContextBuilder.create()
+                 .loadKeyMaterial(keyStore, keyStorePassword.toCharArray())
+                 .loadTrustMaterial(trustStoreFile, trustStorePassword.toCharArray())
+                 .build();
+//                 .forClient()
+//                 .keyManager(keyManagerFactory)
+//                 .trustManager(trustManagerFactory)
 //                 .build();
-////                 .forClient()
-////                 .keyManager(keyManagerFactory)
-////                 .trustManager(trustManagerFactory)
-////                 .build();
-//
-//      } catch (Exception exception) {
-//         System.out.println(exception);
-//      }
-//
-//      return null;
-//   }
+
+      } catch (Exception exception) {
+         System.out.println(exception);
+      }
+
+      return null;
+   }
 
 //   public WebClient webClient() {
 //      SSLContext sslContext = getTwoWaySslContext();
@@ -86,10 +87,11 @@ public class SystemPropertySetter {
 //      return WebClient.builder().baseUrl("https://localhost:8082").clientConnector(new ReactorClientHttpConnector(httpClient)).build();
 //   }
 
-//   public HttpClient httpClient() {
-//      SSLContext sslContext = getTwoWaySslContext();
-//      return HttpClient.newBuilder().sslContext(sslContext).build();
-//   }
+   @Bean
+   public HttpClient httpClient() {
+      SSLContext sslContext = getTwoWaySslContext();
+      return HttpClient.newBuilder().sslContext(sslContext).build();
+   }
 
 
    }
