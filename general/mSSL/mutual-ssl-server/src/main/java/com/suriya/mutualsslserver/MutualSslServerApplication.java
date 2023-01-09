@@ -7,10 +7,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class MutualSslServerApplication {
 
 	public static void main(String[] args) {
-		System.setProperty("javax.net.debug", "ssl:handshake");
-		System.setProperty("javax.net.ssl.trustStore", "server.ssl.trust-store");
-		System.setProperty("javax.net.ssl.trustStorePassword", "server.ssl.trust-store-password");
-//		System.setProperty("javax.net.ssl.trustStore", "C:\\Suriya\\ws\\learning\\general\\mSSL\\mutual-ssl-server\\mutual-ssl-server\\src\\main\\resources\\certs\\ca-trust");
+//		System.setProperty("javax.net.ssl.keyStore", "C:\\Suriya\\ws\\learning\\general\\mSSL\\mutual-ssl-server\\src\\main\\resources\\certs\\server-keystore.jks");
+//		System.setProperty("javax.net.ssl.keyStorePassword", "password");
+//		System.setProperty("javax.net.ssl.keyStoreType", "jks");
+//		System.setProperty("javax.net.ssl.trustStore", "C:\\Suriya\\ws\\learning\\general\\mSSL\\mutual-ssl-server\\src\\main\\resources\\certs\\server-truststore.jks");
+//		System.setProperty("javax.net.ssl.trustStorePassword", "password");
 		SpringApplication.run(MutualSslServerApplication.class, args);
 	}
 

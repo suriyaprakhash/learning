@@ -1,4 +1,4 @@
-package com.suriya.mutualsslserver;
+package com.suriya.mutualsslserver.controller;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,6 +10,6 @@ public class ServerController {
 
     @GetMapping
     public String serverData() {
-        return "Data from server";
+        return "Data from server 5";
     }
 }

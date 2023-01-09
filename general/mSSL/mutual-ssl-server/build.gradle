@@ -13,6 +13,10 @@ repositories {
 }
 
 dependencies {
+	// Security is not required for 2 way ssl
+	// the following is used for filters to be used during auth
+//	implementation 'org.springframework.boot:spring-boot-starter-security'
+
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
