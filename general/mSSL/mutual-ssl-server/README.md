@@ -2,49 +2,28 @@
 
 ## Run
 
-## Generating certs - with keytool JKS
+## Generating the same as pkcs12 (USE THIS)
 
-keytool -genKey -alias suriya-server -keystore server-keystore.jks -storetype jks -keypass password -storepass password -keyalg RSA
-keytool -genKey -alias suriya-client -keystore client-keystore.jks -storetype jks -keypass password -storepass password -keyalg RSA
+### Keystore
+
+keytool -genKey -alias suriya-server -keystore server-keystore.jks -storetype jks -keypass password -storepass password -keyalg RSA -deststoretype pkcs12
+
+keytool -genKey -alias suriya-client -keystore client-keystore.jks -storetype jks -keypass password -storepass password -keyalg RSA -deststoretype pkcs12
+
+### Cert
 
 keytool -exportcert -alias suriya-server -keystore server-keystore.jks -file server-cert.cer -storepass password
+
 keytool -exportcert -alias suriya-client -keystore client-keystore.jks -file client-cert.cer -storepass password
 
-keytool -importcert -keystore server-truststore.jks -file client-cert.cer -alias suriya-client -storepass password -trustcacerts
-keytool -importcert -keystore client-truststore.jks -file server-cert.cer -alias suriya-server -storepass password -trustcacerts
+### TrustStore
 
-### To convert to pkcs12 from jks proprietary format
+keytool -importcert -keystore server-truststore.jks -file client-cert.cer -alias suriya-client -storepass password -trustcacerts -deststoretype pkcs12
 
-keytool -importkeystore -srckeystore server-keystore.jks -destkeystore server-keystore.jks -deststoretype pkcs12
-keytool -importkeystore -srckeystore client-keystore.jks -destkeystore client-keystore.jks -deststoretype pkcs12
-
-keytool -importkeystore -srckeystore server-keystore.jks -destkeystore server-keystore.jks -deststoretype pkcs12
-keytool -importkeystore -srckeystore client-keystore.jks -destkeystore client-keystore.jks -deststoretype pkcs12
+keytool -importcert -keystore client-truststore.jks -file server-cert.cer -alias suriya-server -storepass password -trustcacerts -deststoretype pkcs12
 
 
-
-## Generating certs - Incorrect with Openssl
-
-### Server
-
-openssl genrsa -out server-key.pem 4096
-openssl req -new -x509 -sha256 -days 1000 -key server-key.pem -out server-cert.pem
-
-keytool -importcert -keystore server-truststore.jks -file client-cert.pem -alias suriya-client -storepass password -trustcacerts
-
-
-keytool -list -keystore server-truststore.jks
-
-### Client
-
-openssl genrsa -out client-key.pem 4096
-openssl req -new -x509 -sha256 -days 1000 -key client-key.pem -out client-cert.pem
-
-keytool -importcert -keystore client-truststore.jks -file server-cert.pem -alias suriya-server -storepass password -trustcacerts
-
-keytool -list -keystore client-truststore.jks
-
-## Generating certs - Incorrect with CA
+## Generating certs (WORKING)
 
 ### Generate CA
 
@@ -101,7 +80,67 @@ subjectAltName=DNS:*.suriya-client.com
 openssl x509 -req -sha256 -days 1000 -in client-csr.csr -CA ca-cert.pem -CAkey ca-key.pem -out client-cert.pem -extfile client-extfile.cnf  -CAcreateserial
 ```
 
-### Importing CA into the java cacerts
+### Converting pem into JKS
+
+#### Keystore
+
+Combine the Cert and Key
+```shell
+cat ca-cert.pem server-cert.pem server-key.pem > server-combined.pem
+```
+
+convert it into .p12
+```shell
+openssl pkcs12 -export -in server-combined.pem -out server-cert.p12 -name suriya-server
+```
+
+Import .p12 to server-keystore.jks file
+```shell
+keytool -importkeystore -srckeystore server-cert.p12 -srcstoretype pkcs12 -destkeystore server-keystore.jks
+```
+
+Combine the Cert and Key
+```shell
+cat ca-cert.pem client-cert.pem client-key.pem > client-combined.pem
+```
+
+convert it into .p12
+```shell
+openssl pkcs12 -export -in client-combined.pem -out client-cert.p12 -name suriya-client
+```
+
+Import .p12 to client-keystore.jks file
+```shell
+keytool -importkeystore -srckeystore client-cert.p12 -srcstoretype pkcs12 -destkeystore client-keystore.jks
+```
+
+#### Cert and Truststore
+
+```shell
+keytool -exportcert -alias suriya-server -keystore server-keystore.jks -file server-cert.cer -storepass password
+```
+
+```shell
+keytool -exportcert -alias suriya-client -keystore client-keystore.jks -file client-cert.cer -storepass password
+```
+
+```shell
+cp ca-cert.pem ca-cert.cer
+```
+
+```shell
+keytool -importcert -keystore server-truststore.jks -file ca-cert.cer -alias suriya-client -storepass password -trustcacerts -deststoretype pkcs12
+```
+
+```shell
+keytool -importcert -keystore client-truststore.jks -file ca-cert.cer -alias suriya-server -storepass password -trustcacerts -deststoretype pkcs12
+```
+
+**NOTE** The above method does not check for the hostname as the hostname was not part of the openssl cert generation
+
+
+
+### Importing CA into the java cacerts (NOT REQUIRED)
 
 List cacerts
 ```cmd

@@ -56,7 +56,7 @@ public class MyController {
 //        SystemPropertySetter systemPropertySetter = new SystemPropertySetter();
 //        HttpClient httpClient = systemPropertySetter.httpClient();
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(new URI("https://my.suriya-client.com:8082/server"))
+                .uri(new URI("https://my.suriya-server.com:8082/server"))
                 .headers("Content-Type", "text/plain;charset=UTF-8")
                 .GET()
                 .build();
