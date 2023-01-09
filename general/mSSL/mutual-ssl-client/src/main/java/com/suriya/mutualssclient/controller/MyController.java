@@ -1,6 +1,5 @@
 package com.suriya.mutualssclient.controller;
 
-import com.suriya.mutualssclient.SystemPropertySetter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,7 +14,6 @@ import java.net.http.HttpClient;
 import java.net.http.HttpHeaders;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.util.concurrent.atomic.AtomicReference;
 
 @RestController
 @RequestMapping("/client")
@@ -58,7 +56,7 @@ public class MyController {
 //        SystemPropertySetter systemPropertySetter = new SystemPropertySetter();
 //        HttpClient httpClient = systemPropertySetter.httpClient();
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(new URI("https://localhost:8082/server"))
+                .uri(new URI("https://my.suriya-client.com:8082/server"))
                 .headers("Content-Type", "text/plain;charset=UTF-8")
                 .GET()
                 .build();

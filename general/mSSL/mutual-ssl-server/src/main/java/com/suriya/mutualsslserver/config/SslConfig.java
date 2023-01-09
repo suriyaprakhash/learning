@@ -1,11 +1,11 @@
-package com.suriya.mutualsslserver;
+package com.suriya.mutualsslserver.config;
 
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @Component
-public class SystemPropertySetter {
+public class SslConfig {
 
 //   @Value("${suriya.server.ssl.trust-store}")
 //   private String trustStorePath;

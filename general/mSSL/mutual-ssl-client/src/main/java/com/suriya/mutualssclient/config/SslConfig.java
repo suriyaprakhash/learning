@@ -1,8 +1,9 @@
-package com.suriya.mutualssclient;
+package com.suriya.mutualssclient.config;
 
 import io.netty.handler.ssl.SslContext;
 import io.netty.handler.ssl.SslContextBuilder;
 import jakarta.annotation.PostConstruct;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.client.reactive.ReactorClientHttpConnector;
@@ -15,14 +16,14 @@ import javax.net.ssl.TrustManagerFactory;
 import java.io.*;
 import java.net.http.HttpClient;
 import java.security.KeyStore;
-//
+
 import org.apache.http.ssl.SSLContextBuilder;
-//import org.apache.http.ssl.SSLContexts;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.netty.tcp.SslProvider;
 
+@Slf4j
 @Component
-public class SystemPropertySetter {
+public class SslConfig {
 
    @Value("${suriya.client.ssl.trust-store}")
    private String trustStorePath;
@@ -47,7 +48,7 @@ public class SystemPropertySetter {
    }
 
 
-   public SslContext getTwoWayNettySslContext() {
+   public SslContext buildSslContextForReactorClientHttpConnector() {
 
       SslContext sslContext = null;
       try(FileInputStream keyStoreFileInputStream = new FileInputStream(ResourceUtils.getFile(keyStorePath));
@@ -68,19 +69,17 @@ public class SystemPropertySetter {
                  .trustManager(trustManagerFactory)
                  .build();
       } catch (Exception exception) {
-         System.out.println(exception);
+        log.error("Exception while building SSL context for reactor web client: ", exception);
       }
 
      return sslContext;
    }
 
-   public SSLContext getTwoWayJavaNetHttpSslContext() {
+   public SSLContext buildSslContextForHttpClient() {
 
       SSLContext sslContext = null;
 
-      try(FileInputStream keyStoreFileInputStream = new FileInputStream(ResourceUtils.getFile(keyStorePath));
-          FileInputStream trustStoreFileInputStream = new FileInputStream(ResourceUtils.getFile(trustStorePath));
-      ) {
+      try(FileInputStream keyStoreFileInputStream = new FileInputStream(ResourceUtils.getFile(keyStorePath))) {
          KeyStore keyStore = KeyStore.getInstance("jks");
          keyStore.load(keyStoreFileInputStream, keyStorePassword.toCharArray());
 
@@ -92,7 +91,7 @@ public class SystemPropertySetter {
                  .build();
 
       } catch (Exception exception) {
-         System.out.println(exception);
+         log.error("Exception while building SSL context for reactor http client: ", exception);
       }
 
       return sslContext;
@@ -100,7 +99,8 @@ public class SystemPropertySetter {
 
    @Bean
    public WebClient webClient() {
-      SslProvider sslProvider = SslProvider.builder().sslContext(getTwoWayNettySslContext()).build();
+      SslProvider sslProvider = SslProvider.builder()
+              .sslContext(buildSslContextForReactorClientHttpConnector()).build();
       reactor.netty.http.client.HttpClient httpClient = reactor.netty.http.client.HttpClient.create()
               .secure(sslProvider);
       return WebClient.builder()
@@ -110,9 +110,8 @@ public class SystemPropertySetter {
 
    @Bean
    public HttpClient httpClient() {
-      SSLContext sslContext = getTwoWayJavaNetHttpSslContext();
+      SSLContext sslContext = buildSslContextForHttpClient();
       return HttpClient.newBuilder().sslContext(sslContext).build();
    }
 
-
-   }
+}

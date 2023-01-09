@@ -37,7 +37,15 @@ dependencies {
 	// the http core is required for building the java.net SSLContext with KeyStore and TrustStore - used by httpClient
 	implementation 'org.apache.httpcomponents:httpcore:4.4.8'
 
+	// for lombok
+	compileOnly 'org.projectlombok:lombok:1.18.22'
+	annotationProcessor 'org.projectlombok:lombok:1.18.22'
+
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+	// lombok in tests
+	testCompileOnly 'org.projectlombok:lombok:1.18.22'
+	testAnnotationProcessor 'org.projectlombok:lombok:1.18.22'
 
 }
 
