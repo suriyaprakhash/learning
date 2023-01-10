@@ -17,6 +17,10 @@ dependencies {
 	// the following is used for filters to be used during auth
 //	implementation 'org.springframework.boot:spring-boot-starter-security'
 
+	// for lombok
+	compileOnly 'org.projectlombok:lombok:1.18.22'
+	annotationProcessor 'org.projectlombok:lombok:1.18.22'
+
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }

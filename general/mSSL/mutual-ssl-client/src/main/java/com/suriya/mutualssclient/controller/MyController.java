@@ -1,5 +1,6 @@
 package com.suriya.mutualssclient.controller;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,17 +16,13 @@ import java.net.http.HttpHeaders;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
+@Slf4j
 @RestController
 @RequestMapping("/client")
 public class MyController {
 
     @Autowired
     WebClient webClient;
-//
-//    @Autowired
-//    public MyController(WebClient webClient) {
-//        this.webClient = webClient;
-//    }
 
     @Autowired
     HttpClient httpClient;
@@ -68,10 +65,10 @@ public class MyController {
         headers.map().forEach((k, v) -> System.out.println(k + ":" + v));
 
         // print status code
-        System.out.println(response.statusCode());
+       log.info(String.valueOf(response.statusCode()));
 
         // print response body
-        System.out.println(response.body());
+        log.info(response.body());
 
         return response.body().toString();
     }
