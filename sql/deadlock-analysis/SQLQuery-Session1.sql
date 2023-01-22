@@ -1,65 +1,30 @@
-/** lists databases **/
-SELECT name, database_id, create_date  
-FROM sys.databases;  
-GO  
+/********* USE CASE *********/
 
-/**table with **/
-CREATE TABLE Persons (
-    ID int NOT NULL PRIMARY KEY,
-    LastName varchar(255) NOT NULL,
-    FirstName varchar(255),
-    Age int
-);
-
-/** list all tables **/
-SELECT * FROM SYSOBJECTS 
-WHERE
-  xtype = 'U';
-GO
-
-SELECT
-  *
-FROM
-  INFORMATION_SCHEMA.TABLES;
-GO
-
-/** select **/
-select * from Persons;
-
-/** delete **/
-delete from Persons;
-
-/** insert **/
-insert into Persons (ID, LastName, FirstName, Age) values (1, 'Suriya', 'Prakhash', 31);
-insert into Persons (ID, LastName, FirstName, Age) values (2, 'Renu', 'Prakhash', 26);
-
-
-/** Transcation 1 **/
-BEGIN TRAN one;
-update Persons set FirstName='one first' where ID = 1;
-update Persons set LastName='one last' where ID = 1;
-ROLLBACK TRAN one;
-COMMIT TRAN one;
-
-
-/** Transcation 2 **/
-BEGIN TRAN two;
-update Persons set FirstName='two first' where ID = 1;
-update Persons set LastName='two last' where ID = 1;
-ROLLBACK TRAN two;
-COMMIT TRAN two;
-
-
+/** Mode X & X Lock **/
+/** Execute the each one after the other(2) - or - with a delay and as fast as possible **/
 /** Transcation Session 1 **/
 BEGIN TRAN one;
-update Persons set FirstName='one id1 first transcation' where ID = 1;
-update Persons set FirstName='one id2 first transcation' where ID = 2;
-ROLLBACK TRAN one;
+update Persons set FirstName='id1 first transcation' where ID = 1;
+-- WAITFOR DELAY '00:00:10'
+update Persons set FirstName='id2 first transcation' where ID = 2;
 COMMIT TRAN one;
 
 
-/** Check if any uncommited transactions **/
-SELECT 
-er.session_id
-,er.open_transaction_count
-FROM sys.dm_exec_requests er
+/** Mode S & X Lock **/
+/** Execute the each one after the other(4) - or - with a delay and as fast as possible **/
+/** Transcation Session 3 **/
+BEGIN TRAN three;
+update Persons set FirstName='id1 third transcation' where ID = 1;
+-- WAITFOR DELAY '00:00:10'
+select * from Persons where ID = 2;
+COMMIT TRAN three;
+
+
+/** Mode S & U Lock **/
+/** Execute the whole quickly after the other(6) -  as fast as possible, try multiple times in case if you don't get it **/
+/** Transcation Session 5 **/
+BEGIN TRAN five;
+update Persons set FirstName='id1 fifth transcation' where LastName='Suriya';
+WAITFOR DELAY '00:00:10'
+update Persons set FirstName='id1 fifth transcation' where LastName='Renu';
+COMMIT TRAN five;
