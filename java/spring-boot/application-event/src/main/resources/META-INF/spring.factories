@@ -1,3 +1,4 @@
 #org.springframework.context.ApplicationListener= org.example.config.SecondListener, org.example.config.FirstListener
+## The listner always runs from the main package and resolve deep into lib, here the last prop in the list takes precedence
 #org.springframework.context.ApplicationListener= org.example.config.SecondListener, org.app.config.FirstListener
-#org.springframework.context.ApplicationListener=  org.app.config.FirstListener, org.example.config.SecondListener
+org.springframework.context.ApplicationListener=  org.app.config.FirstListener, org.example.config.SecondListener
