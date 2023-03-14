@@ -28,3 +28,39 @@ join        sys.partitions      pt  on  pt.hobt_id = tl.resource_associated_enti
 join        sys.objects         ob  on  ob.object_id = pt.object_id
 where       tl.resource_database_id = db_id()
 order by    tl.request_session_id
+
+
+/** Associate object id from the deadlock graph is here the partition_id**/
+SELECT *
+FROM sys.partitions 
+WHERE partition_id = 72057594045923328
+
+
+
+-- Text Execution Plans
+SET STATISTICS PROFILE ON
+GO
+SELECT *
+FROM dbo.Persons
+GO
+SET STATISTICS PROFILE OFF
+GO
+
+
+/***********************************************************/
+
+
+SELECT *
+FROM  dbo.Person as c (nolock)
+      CROSS APPLY sys.fn_physLocCracker (%%physloc%%) As plc
+
+
+SELECT
+    *
+FROM dbo.Person (NOLOCK)
+WHERE %%lockres%% = '(8194443284a0)';      
+
+
+select * from sys.partitions where hobt_id = 72057594047037440
+
+select * from sys.tables where object_id = 72057594047037440

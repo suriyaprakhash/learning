@@ -180,3 +180,7 @@ COMMIT TRAN six;
 ```
 
 here we are using a non-indexed column, so the it takes **update lock** instead of **exclusive lock** unlike the [first scenario with ID](#same-table---different-row-order-change---exclusive--exclusive-in-same-table) reason being it need to scan the whole table for all matching records to update.
+
+### RowIDLock - Replication method
+
+Drop the person table and recreate it without a PRIMARY_KEY and repeat the [KeyLock step](#same-table---different-row-order-change---exclusive--update-in-same-table) and now you will see it as [ROW ID LOCK](./deadlock-xml/same%20table%20-%20different%20row%20order%20change%20RID%20Lock%20-%20exclusive%20%26%20update.xml)

@@ -1,0 +1,3 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=org.app.LibLevel1AutoConfig
+#org.springframework.context.ApplicationListener=org.app.config.FirstListener
+org.springframework.context.ApplicationListener=  org.app.config.FirstListener, org.example.config.SecondListener
