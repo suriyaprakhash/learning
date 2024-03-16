@@ -47,6 +47,8 @@ wsl -d ubuntu-python
 ```
 - Using **power shell**
 
+This would start on **root**, however it would use the windows profile to 
+
 ## Set default instance
 
 ```
