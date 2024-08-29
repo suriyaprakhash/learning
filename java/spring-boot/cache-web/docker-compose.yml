@@ -1,0 +1,50 @@
+version: "3.9"
+
+services:
+
+#  cache_web:
+#    build:
+#      context: ./
+#      dockerfile: Dockerfile
+#    depends_on:
+#      db:
+#        condition: service_healthy
+#        restart: true
+#      pgadmin:
+#        condition: service_healthy
+
+  db:
+    image: postgres
+    network_mode: bridge
+    container_name: local_pgdb
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: contact@suriyaprakhash.com
+      POSTGRES_PASSWORD: password
+    volumes:
+      - local_pgdata:/var/lib/postgresql/data
+  pgadmin:
+    image: dpage/pgadmin4
+    network_mode: bridge
+    container_name: pgadmin4_container
+    restart: always
+    ports:
+      - "8888:80"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: contact@suriyaprakhash.com
+      PGADMIN_DEFAULT_PASSWORD: password
+    volumes:
+      - pgadmin-data:/var/lib/pgadmin
+
+volumes:
+  local_pgdata:
+  pgadmin-data:
+
+networks:
+  default:
+    external:
+      name: bridge
+
+
