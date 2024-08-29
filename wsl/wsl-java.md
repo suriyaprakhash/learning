@@ -49,7 +49,7 @@ ls /usr/lib -la | grep jvm
 ```
 (or)
 ```
-ls /usr/lib/jvm --la
+ls /usr/lib/jvm -la
 ```
 
 ## Switch versions
