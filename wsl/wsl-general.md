@@ -7,6 +7,7 @@
 - [Start a distro](#start-a-distro)
 - [Set default instance](#set-default-instance)
 - [Shutdown vs Terminate vs Unregister](#shutdown-vs-terminate-vs-unregister)
+- [Copying Files](#copying-files)
 
 The following commands are for **wsl2**
 
@@ -71,4 +72,14 @@ wsl --terminate ubuntu-default
 **Unregister** will wipe all the data for the specified instance
 ```
 wsl --unregister ubuntu-default
+```
+
+## Copying Files
+
+While copying files from **windows** to *wsl* - it leaves behind _zoneIdentifier_, to remove it,
+
+Go the WSL home diretory and run the following to delete em all
+
+```shell
+find . -name "*Zone.Identifier" -type f -delete
 ```
