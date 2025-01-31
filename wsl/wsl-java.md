@@ -4,7 +4,7 @@
 - [Search for Open JDK](#search-for-open-jdk)
 - [Install JDK](#install-jdk)
 - [Switch versions](#switch-versions)
-
+- [Uninstall JDK](#uninstall-jdk)
 ## Basic
 
 - Switch user
@@ -31,10 +31,10 @@ Go with **headless** for servers and **jdk** for the ones with graphics and stuf
 ## Install jdk
 
 ```
-sudo apt install openjdk-21-jdk openjdk-21-source
+sudo apt install openjdk-21-jdk openjdk-21-source openjdk-21-doc
 ```
 
-**Note:** Install *source* only for the development
+**Note:** Install *source* and *doc* only for the development
 
 ```
 java -version
@@ -70,3 +70,17 @@ sudo update-alternatives --config java
 java -version
 ```
 
+## Uninstall JDK
+
+```
+sudo apt remove openjdk-11-* -y
+```
+
+The above removes openjdk 11 and its corresponding files and association
+
+
+```
+sudo apt autoremove -y && sudo apt clean -y
+```
+
+The above removes any unused linked dependency
