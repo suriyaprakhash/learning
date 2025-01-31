@@ -5,6 +5,7 @@
 - [Install JDK](#install-jdk)
 - [Switch versions](#switch-versions)
 - [Uninstall JDK](#uninstall-jdk)
+
 ## Basic
 
 - Switch user
