@@ -32,10 +32,11 @@ Go with **headless** for servers and **jdk** for the ones with graphics and stuf
 ## Install jdk
 
 ```
-sudo apt install openjdk-21-jdk openjdk-21-source openjdk-21-doc
+sudo apt install openjdk-21-jdk openjdk-21-source openjdk-21-doc -y
 ```
-
-**Note:** Install *source* and *doc* only for the development
+Here,
+- **-y** is for *Yes* for the prompts.
+- Install *source* and *doc* only for the development
 
 ```
 java -version
