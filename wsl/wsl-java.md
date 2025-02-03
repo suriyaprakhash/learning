@@ -5,6 +5,7 @@
 - [Install JDK](#install-jdk)
 - [Switch versions](#switch-versions)
 - [Uninstall JDK](#uninstall-jdk)
+- [Load test installation](#load-test-installation)
 
 ## Basic
 
@@ -86,3 +87,19 @@ sudo apt autoremove -y && sudo apt clean -y
 ```
 
 The above removes any unused linked dependency
+
+## Load test installation
+
+### Install k6
+
+```
+sudo apt install k6
+```
+gets installed under ```/usr/bin/k6``` folder
+
+### Install ab
+
+```
+sudo apt install apache2-utils
+```
+gets installed under ```/usr/bin/ab``` folder
